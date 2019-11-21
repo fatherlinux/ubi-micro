@@ -16,4 +16,7 @@ Simple run test:
 
 `podman run -it ubi-micro bash`
 
+# Build Stage 1 (AKA the Dev Server)
 
+Build ubi-micro-build:
+`podman build --target ubi-micro-build -t quay.io/fatherlinux/ubi-micro-build -f Containerfile`
