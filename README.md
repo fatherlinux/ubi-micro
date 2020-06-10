@@ -16,7 +16,7 @@ Simple run test:
 
 `podman run -it ubi8-micro bash`
 
-# ubir7 Build & Run
+# ubi7 Build & Run
 Build ubi7-micro:
 
 `podman build -t ubi7-micro -f ubi7-micro`
