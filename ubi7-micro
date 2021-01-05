@@ -7,7 +7,7 @@ RUN sed -e 's/enabled\ =\ 1/enabled\ =\ 0/g' -e '/\[ubi-7]/,/^ *\[/ s/enabled\ =
 RUN mkdir -p /mnt/rootfs
 RUN yum install --installroot /mnt/rootfs coreutils glibc --releasever 7 --setopt=tsflags=nodocs -y
 RUN rm -rf /mnt/rootfs/var/cache/*
-RUN rm -rf /mnt/rootfs/var/lib/rpm
+# RUN rm -rf /mnt/rootfs/var/lib/rpm
 
 FROM scratch AS ubi7-micro
 COPY --from=ubi-micro-build /mnt/rootfs/ /
