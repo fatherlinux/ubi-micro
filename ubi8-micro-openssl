@@ -1,8 +1,10 @@
-from ubi8 as build-env
+# Version 2 for ubi8-micro-openssl
 
-run mkdir /output
-run dnf -y --installroot /output --releasever 8 --setopt=install_weak_deps=false --nodocs install glibc-minimal-langpack coreutils-single openssl
-run dnf -y --installroot /output --releasever 8 clean all
+FROM registry.access.redhat.com/ubi8/ubi AS ubi-micro-build
+RUN mkdir -p /mnt/rootfs
+RUN yum install --installroot /mnt/rootfs --releasever 8 --setopt install_weak_deps=false --nodocs -y coreutils-single glibc-minimal-langpack openssl; yum clean all
+RUN rm -rf /mnt/rootfs/var/cache/*
 
-from scratch
-copy --from=build-env /output /
+FROM registry.access.redhat.com/ubi8/ubi-micro AS ubi8-micro
+COPY --from=ubi-micro-build /mnt/rootfs/ /
+CMD /usr/bin/openssl
