@@ -1,0 +1,13 @@
+#
+# Version 4 for ubi10
+FROM registry.access.redhat.com/ubi10/ubi AS ubi-micro-build
+MAINTAINER Mark Russell <mrussell@redhat.com>
+RUN mkdir -p /mnt/rootfs
+RUN yum install --installroot /mnt/rootfs coreutils-single glibc-minimal-langpack --releasever 10 --setopt install_weak_deps=false --nodocs -y;yum clean all
+RUN rm -rf /mnt/rootfs/var/cache/*
+# RUN rm -rf /mnt/rootfs/var/lib/rpm
+
+FROM scratch AS ubi10-micro
+COPY --from=ubi-micro-build /mnt/rootfs/ /
+COPY --from=ubi-micro-build /etc/yum.repos.d/ubi.repo /etc/yum.repos.d/ubi.repo
+CMD /bin/sh
